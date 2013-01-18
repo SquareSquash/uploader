@@ -49,11 +49,11 @@ module Squash
     #   when opening a connection to the Squash server.
     # @option options [Fixnum] :read_timeout (15) The number of seconds to wait
     #   when waiting for data from the Squash server.
-    # @option options [true, false] :skip_verification (false) If `true`, SSL peer
-    #   verification will not be performed.
-    # @option options [Array<Class>] :success ([Net::HTTPSuccess]) A list of
-    #   subclasses of `Net::HTTPResponse` that are considered successful and will
-    #   not raise an exception.
+    # @option options [true, false] :skip_verification (false) If `true`, SSL
+    #   peer verification will not be performed.
+    # @option options [Array<Class, Fixnum>] :success ([Net::HTTPSuccess]) A
+    #   list of subclasses of `Net::HTTPResponse` or response codes that are
+    #   considered successful and will not raise an exception.
 
     def initialize(host, options={})
       @host    = host
@@ -100,7 +100,15 @@ module Squash
           request.body = body
           response     = session.request(request)
 
-          if options[:success].none? { |cl| response.kind_of?(cl) }
+          if options[:success].none? { |cl|
+            if cl.kind_of?(Class)
+              response.kind_of?(cl)
+            elsif cl.kind_of?(Fixnum) || cl.kind_of?(String)
+              response.code.to_i == cl.to_i
+            else
+              raise ArgumentError, "Unknown :success value #{cl}"
+            end
+          }
             raise "Unexpected response from Squash host: #{response.code}"
           end
         end
