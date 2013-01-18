@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "squash_uploader"
-  s.version = "1.0.0"
+  s.version = "1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tim Morgan"]
-  s.date = "2012-10-18"
+  s.date = "2013-01-18"
   s.description = "Shared library amongst all gems relating to Squash that handles communication with a Squash install."
   s.email = "tim@squareup.com"
   s.extra_rdoc_files = [
