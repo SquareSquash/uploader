@@ -8,7 +8,8 @@ group :development do
 
   # DOCS
   gem 'yard', :require => nil
-  gem 'redcarpet', :require => nil, :platform => :mri
+  # version 3.0 not compatible with ruby 1.8
+  gem 'redcarpet', '< 3.0.0', :require => nil, :platform => :mri
 
   # DEVELOPMENT
   gem 'jeweler'
